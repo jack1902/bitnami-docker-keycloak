@@ -62,6 +62,8 @@ keycloak_env_vars=(
     DB_PASSWORD
     DB_SCHEMA
     JDBC_PARAMS
+    JAVA_OPTS_APPEND
+    JAVA_OPTS
 )
 for env_var in "${keycloak_env_vars[@]}"; do
     file_env_var="${env_var}_FILE"
@@ -137,3 +139,5 @@ export KEYCLOAK_DAEMON_USER="${KEYCLOAK_DAEMON_USER:-keycloak}"
 export KEYCLOAK_DAEMON_GROUP="${KEYCLOAK_DAEMON_GROUP:-keycloak}"
 
 # Custom environment variables may be defined below
+export JAVA_OPTS_APPEND="${JAVA_OPTS_APPEND:-""}"
+export JAVA_OPTS="${JAVA_OPTS:-""}"
