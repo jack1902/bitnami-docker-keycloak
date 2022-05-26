@@ -80,6 +80,20 @@ keycloak_validate() {
         fi
     done
 
+    # https://www.keycloak.org/server/caching#_transport_stacks
+    if [[ "$KEYCLOAK_CACHE_STACK" == "kubernetes" ]]; then
+        present="false"
+        for var in JAVA_OPTS JAVA_OPTS_APPEND; do
+            if [[ "${!var}" == *"-Djgroups.dns.query"* ]]; then
+                present="true"
+            fi
+        done
+
+        if ! is_boolean_yes "${present}"; then
+            print_validation_error "JAVA_OPTS/JAVA_OPTS_APPEND env-var is missing '-Djgroups.dns.query' which is required when using KEYCLOAK_CACHE_STACK=kubernetes"
+        fi
+    fi
+
     [[ "$error_code" -eq 0 ]] || exit "$error_code"
 }
 
@@ -138,8 +152,9 @@ keycloak_configure_database() {
 #   None
 #########################
 keycloak_configure_cache() {
-    info "Configuring cache count"
+    info "Configuring cache settings"
     keycloak_conf_set "cache" "$KEYCLOAK_CACHE_TYPE"
+    debug_execute kc.sh build --cache-stack "$KEYCLOAK_CACHE_STACK"
 }
 
 ########################

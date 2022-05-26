@@ -63,6 +63,8 @@ keycloak_env_vars=(
     DB_PASSWORD
     DB_SCHEMA
     JDBC_PARAMS
+    JAVA_OPTS_APPEND
+    JAVA_OPTS
 )
 for env_var in "${keycloak_env_vars[@]}"; do
     file_env_var="${env_var}_FILE"
@@ -105,7 +107,7 @@ export KEYCLOAK_BIND_ADDRESS="${KEYCLOAK_BIND_ADDRESS:-$(hostname --fqdn)}"
 export KC_HOSTNAME="${KC_HOSTNAME:-"${KEYCLOAK_FRONTEND_URL:-}"}"
 export KEYCLOAK_INIT_MAX_RETRIES="${KEYCLOAK_INIT_MAX_RETRIES:-10}"
 export KEYCLOAK_CACHE_TYPE="${KEYCLOAK_CACHE_TYPE:-ispn}"
-export KEYCLOAK_CACHE_STACK="${KEYCLOAK_CACHE_STACK:-}"
+export KEYCLOAK_CACHE_STACK="${KEYCLOAK_CACHE_STACK:-udp}"
 export KEYCLOAK_EXTRA_ARGS="${KEYCLOAK_EXTRA_ARGS:-}"
 export KEYCLOAK_ENABLE_STATISTICS="${KEYCLOAK_ENABLE_STATISTICS:-false}"
 export KEYCLOAK_ENABLE_TLS="${KEYCLOAK_ENABLE_TLS:-false}"
@@ -138,3 +140,5 @@ export KEYCLOAK_DAEMON_USER="${KEYCLOAK_DAEMON_USER:-keycloak}"
 export KEYCLOAK_DAEMON_GROUP="${KEYCLOAK_DAEMON_GROUP:-keycloak}"
 
 # Custom environment variables may be defined below
+export JAVA_OPTS_APPEND="${JAVA_OPTS_APPEND:-""}"
+export JAVA_OPTS="${JAVA_OPTS:-""}"
